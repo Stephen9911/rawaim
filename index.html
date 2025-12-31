@@ -562,6 +562,12 @@
             background: rgba(107, 139, 255, 0.3);
         }
     </style>
+
+    <!-- Vercel Web Analytics -->
+    <script>
+      window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+    </script>
+    <script defer src="/_vercel/insights/script.js"></script>
 </head>
 <body>
     <canvas id="starfield"></canvas>
@@ -1086,6 +1092,14 @@
             events.push(event);
             if (events.length > 100) events.shift();
             localStorage.setItem('rawaimEvents', JSON.stringify(events));
+            
+            // Send custom event to Vercel Web Analytics
+            if (typeof window.va === 'function') {
+                window.va('event', {
+                    name: eventType,
+                    data: data
+                });
+            }
         }
 
         function showToast(message) {
